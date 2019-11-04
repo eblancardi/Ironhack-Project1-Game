@@ -28,7 +28,7 @@ moveRight() {
   this.x += 20;
 }
 
-var cup = new Cup ();
+var cup = new Cup();
 
 document.onkeydown = function(e) {
   switch (e.keyCode) {
@@ -38,4 +38,6 @@ document.onkeydown = function(e) {
   
   ctx.clearRect(0,0, 400,300);
   cup.draw();
-}
+};
+
+

@@ -3,7 +3,7 @@ function random(from, to) {
 }
 
 class Scoop 
-  constructor() {
+  constructor(){
   const img = document.createElement('img');
   img.onload = () => {
     this.img = img;
@@ -15,23 +15,8 @@ class Scoop
 
   this.x = W/2-this.w/2;
   this.y = H-this.h-100;
-}
+};
 img.src = "./Images/scoop1.png";
 img.src= "./Images/scoop2.png";
 img.src= "./Images/scoop3.png";
 };
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
