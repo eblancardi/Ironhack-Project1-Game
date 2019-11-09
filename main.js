@@ -1,96 +1,64 @@
-const canvas = document.getElementById("game-board");
-const ctx = canvas.getContext("2d");
-const W = ctx.canvas.width;
-const H = ctx.canvas.height;
-ctx.fillStyle = 'white';
-ctx.font = '18px serif';
-
 // Variables
 
-var cup;
-var scoop1;
-var scoop2;
-var scoop3;
-var gameover;
-var yumyum;
-var raf;
-var frames = 0;
-var y1 = 0;
-var y2 = 0;
-var y3 = 0;
-scoop1 = new Scoop ("./Images/scoop1.png", 50, 50);
-scoop2 = new Scoop ("./Images/scoop2.png", 100, 100);
-scoop3 = new Scoop ("./Images/scoop3.png", 150, 150);
-var scoops = [];
+let cup;
+let scoops;
+let gameover;
 
-// lance le jeu
-
-document.getElementById("start-button").onclick = function() {
-  startGame();
-};
+const canvas = document.getElementById('game-board');
+const ctx = canvas.getContext('2d');
+const W = ctx.canvas.width;
+const H = ctx.canvas.height;
 
 // afficher les éléments
 
 function draw() {
-  ctx.clearRect(0,0,W,H);
+	ctx.clearRect(0, 0, W, H);
 
-  scoops.forEach(function (oneScoop) {
-    oneScoop.y += 2;
-    oneScoop.draw();
-  });
-  cup.draw();
-}; 
+	ctx.fillStyle = 'white';
+	ctx.font = '18px serif';
 
-function animLoop(){
-  frames++;
-  if(frames % 30 === 0) {
-    var chiffre = Math.random()*1000;
-    var unScoop = new Scoop ("./Images/scoop1.png", chiffre, 0);
-    scoops.push(unScoop);
-  };
-  
-  draw();
+	// la coupe de glace
+	cup.draw();
 
-  requestAnimationFrame(animLoop);
-};
+	//Obstacles avec la coupe
+	if (frames % 150 === 0) {
+		var scoop = new Scoop();
+		scoops.push(scoop);
+	}
 
-function startGame() {
-  gameover = false;
-  cup = new Cup()
+	scoops.forEach(function(scoop) {
+		scoop.y += 5;
+		scoop.draw();
+	});
 
-  requestAnimationFrame(animLoop);
-};
+	for (scoop of scoops) {
+		if (scoop.hits(cup)) {
+			console.log('miam');
+			//  gameover = true;
+		}
+	}
+}
 
 // les éléments bougent
 
 document.onkeydown = function(e) {
-  switch (e.keyCode) {
-    case 37: cup.moveLeft();  console.log('left', cup); break;
-    case 39: cup.moveRight(); console.log('right', cup); break;
-  }
+	if (!cup) return;
+
+	switch (e.keyCode) {
+		case 37:
+			cup.moveLeft();
+			console.log('left', cup);
+			break;
+		case 39:
+			cup.moveRight();
+			console.log('right', cup);
+			break;
+	}
 };
 
-function clearCanvas() {
-  ctx.clearRect(0,0,1200,600);
-};
-
-// Obstacles avec la cup
-/* if (frames % 150 === 0) {
-    var scoops = new Scoop();
-    scoops.push(scoops);
-  };
-
- obstacles.forEach(function (cup) {
-    cup.y += 5;
-    cup.draw();
-  };
-
- for (cup of scoops) {
-   (cup.hits(scoops)) {
-      console.log('miam');
-      gameover = true;
-    };
-  }; 
+// function clearCanvas() {
+// 	ctx.clearRect(0, 0, 1200, 600);
+// }
 
 /* function detectCollision(a , b) {
     return a.x < b.x + b.w &&
@@ -106,4 +74,27 @@ function gestcollisions (){
     console.log("ok")
   }
 })
-};*/ 
+};*/
+var frames = 0;
+function animLoop() {
+	frames++;
+
+	draw();
+
+	if (!gameover) {
+		requestAnimationFrame(animLoop);
+	}
+}
+
+function startGame() {
+	gameover = false;
+	cup = new Cup();
+	scoops = [];
+
+	requestAnimationFrame(animLoop);
+}
+
+// lance le jeu
+document.getElementById('start-button').onclick = function() {
+	startGame();
+};

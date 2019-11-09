@@ -1,35 +1,31 @@
 class Cup {
-  constructor() {
-    const img = document.createElement('img');
-    img.onload = () => {
-      this.img = img;
+	constructor() {
+		const img = document.createElement('img');
+		img.onload = () => {
+			this.img = img;
 
-    const imgRatio = img.naturalWidth/img.naturalHeight;
+			const imgRatio = img.naturalWidth / img.naturalHeight;
 
-    this.w = 100;
-    this.h = this.w/imgRatio;
+			this.w = 100;
+			this.h = this.w / imgRatio;
 
-    this.x = this.w/2-this.w/2;
-    this.y = H-this.h-100;
-    }
-    img.src = "./Images/cup.png"; 
-  };
+			this.x = this.w / 2 - this.w / 2;
+			this.y = H - this.h - 100;
+			this.speed = 75;
+		};
+		img.src = './Images/cup.png';
+	}
 
-  draw() {
-    if (!this.img) return; 
-    ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
-  };
+	draw() {
+		if (!this.img) return;
+		ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+	}
 
-  moveLeft() {
-    this.x += -10;
-  };
+	moveLeft() {
+		this.x += -10;
+	}
 
-  moveRight() {
-    this.x += 10;
-  };
-
-};
-
-function random(from, to) {
-  return Math.floor(from + Math.random()*(to - from));
-};
+	moveRight() {
+		this.x += 10;
+	}
+}
